@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "msmpenhanced",
+  "version": "${version}",
+  "name": "MSMP Enhanced",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "LGPL-3.0-only",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "de.tert0.msmpenhanced.MsmpEnhancedMod"
+    ]
+  },
+  "mixins": [
+    "msmpenhanced.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "1.21.9-alpha.25.37.a"
+  }
+}
