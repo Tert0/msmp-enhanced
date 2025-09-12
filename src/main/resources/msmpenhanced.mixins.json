@@ -5,7 +5,10 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BearerAuthenticationHandlerMixin",
-    "ManagementServerMixin"
+    "ManagementConnectionHandlerMixin",
+    "ManagementServerMixin",
+    "RpcSchemaAccessor",
+    "ServerManagementHandlerImplAccessor"
   ],
   "client": [
   ],

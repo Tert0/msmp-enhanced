@@ -1,5 +1,6 @@
 package de.tert0.msmpenhanced;
 
+import de.tert0.msmpenhanced.management.ModIncomingRpcMethods;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
@@ -17,6 +18,8 @@ public class MsmpEnhancedMod implements ModInitializer {
     public void onInitialize() {
         Path configPath = FabricLoader.getInstance().getConfigDir().resolve("msmpenhanced.json");
         MsmpEnhancedMod.config = Config.load(configPath);
+
+        ModIncomingRpcMethods.initialize();
     }
 
     public static Config getConfig() {
