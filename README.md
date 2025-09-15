@@ -2,6 +2,8 @@
 MSMP Enhanced is a server-side Fabric Mod that extends the [Minecraft Server Management Protocol](https://minecraft.wiki/w/Minecraft_Server_Management_Protocol) introduced in Minecraft 1.21.9 (25w35a).
 
 This mod provides optional Unix socket support and adds additional RPC methods.
+MSMP Enhanced can also be used as a remote server console backend, similar to RCON but with support for structured Text Components and command tab completion. 
+This allows external tools (like web panels or CLI utilities) to run commands, view styled output, and get live suggestions for commands as you type.
 
 ## Features
 ### Methods
