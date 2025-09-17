@@ -16,7 +16,7 @@ public class ModIncomingRpcMethods {
     private static <T extends IncomingRpcMethod> void register(String name, IncomingRpcMethod.Builder<T> methodBuilder) {
         Registry.register(
                 Registries.INCOMING_RPC_METHOD, Identifier.of(MsmpEnhancedMod.MOD_ID, name),
-                methodBuilder.build(MsmpEnhancedMod.MOD_ID, name)
+                methodBuilder.build()
         );
     }
 

@@ -57,7 +57,7 @@ public abstract class ManagementServerMixin {
         return original.call(instance, host, port);
     }
 
-    @ModifyArg(method = "listen", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;info(Ljava/lang/String;)V"), remap = false)
+    @ModifyArg(method = "listen", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;info(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V"), remap = false)
     String modifyLogListenMessage(String msg) {
         if(this.config.unixSocketEnabled()) {
             return "Json-RPC Management connection listening on unix socket at " + this.config.unixSocketPath();

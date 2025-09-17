@@ -24,10 +24,10 @@ import java.util.Optional;
 
 public class CommandRpcHandler {
     private static ServerCommandSource createCommandSource(MinecraftServer server, CommandOutput commandOutput, ManagementConnectionId remote) {
-        ServerWorld serverWorld = server.getOverworld();
+        ServerWorld serverWorld = server.getWorld(server.getSpawnPos().dimension());
         String name = "RPC Connection #" + remote.connectionId();
         return new ServerCommandSource(
-                commandOutput, serverWorld == null ? Vec3d.ZERO : Vec3d.of(serverWorld.getSpawnPos()), Vec2f.ZERO, serverWorld,
+                commandOutput, Vec3d.of(server.getSpawnPos().pos()), Vec2f.ZERO, serverWorld,
                 4, name, Text.literal(name), server, null
         );
     }
