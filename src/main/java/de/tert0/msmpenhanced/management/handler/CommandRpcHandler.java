@@ -76,7 +76,7 @@ public class CommandRpcHandler {
         };
 
         ServerCommandSource commandSource = createCommandSource(server, commandOutput, remote);
-        server.getCommandManager().executeWithPrefix(commandSource, command);
+        server.getCommandManager().parseAndExecute(commandSource, command);
 
         return messages;
     }
