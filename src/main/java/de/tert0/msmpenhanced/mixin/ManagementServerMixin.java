@@ -33,7 +33,7 @@ public abstract class ManagementServerMixin {
         }
     }
 
-    @WrapOperation(method = "listen", at = @At(value = "INVOKE", target = "Lio/netty/bootstrap/ServerBootstrap;channel(Ljava/lang/Class;)Lio/netty/bootstrap/AbstractBootstrap;"), remap = false)
+    @WrapOperation(method = "listen", at = @At(value = "INVOKE", target = "Lio/netty/bootstrap/ServerBootstrap;channel(Ljava/lang/Class;)Lio/netty/bootstrap/AbstractBootstrap;", remap = false))
     AbstractBootstrap<ServerBootstrap, ServerChannel> channel(ServerBootstrap instance, Class<?> channelClass, Operation<AbstractBootstrap<ServerBootstrap, ServerChannel>> original) {
         if(this.config.unixSocketEnabled()) {
             return instance.channel(EpollServerDomainSocketChannel.class);
@@ -41,7 +41,7 @@ public abstract class ManagementServerMixin {
         return original.call(instance, channelClass);
     }
 
-    @WrapOperation(method = "listen", at = @At(value = "INVOKE", target = "Lio/netty/bootstrap/ServerBootstrap;group(Lio/netty/channel/EventLoopGroup;)Lio/netty/bootstrap/ServerBootstrap;"), remap = false)
+    @WrapOperation(method = "listen", at = @At(value = "INVOKE", target = "Lio/netty/bootstrap/ServerBootstrap;group(Lio/netty/channel/EventLoopGroup;)Lio/netty/bootstrap/ServerBootstrap;", remap = false))
     ServerBootstrap group(ServerBootstrap instance, EventLoopGroup group, Operation<ServerBootstrap> original) {
         if(this.config.unixSocketEnabled()) {
             return instance.group(this.epollEventLoopGroup);
@@ -49,7 +49,7 @@ public abstract class ManagementServerMixin {
         return original.call(instance, group);
     }
 
-    @WrapOperation(method = "listen", at = @At(value = "INVOKE", target = "Lio/netty/bootstrap/ServerBootstrap;localAddress(Ljava/lang/String;I)Lio/netty/bootstrap/AbstractBootstrap;"), remap = false)
+    @WrapOperation(method = "listen", at = @At(value = "INVOKE", target = "Lio/netty/bootstrap/ServerBootstrap;localAddress(Ljava/lang/String;I)Lio/netty/bootstrap/AbstractBootstrap;", remap = false))
     AbstractBootstrap<ServerBootstrap, ServerChannel> localAddress(ServerBootstrap instance, String host, int port, Operation<AbstractBootstrap<ServerBootstrap, ServerChannel>> original) {
         if(this.config.unixSocketEnabled()) {
             return instance.localAddress(new DomainSocketAddress(this.config.unixSocketPath()));
@@ -57,7 +57,7 @@ public abstract class ManagementServerMixin {
         return original.call(instance, host, port);
     }
 
-    @ModifyArg(method = "listen", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;info(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V"), remap = false)
+    @ModifyArg(method = "listen", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;info(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V", remap = false))
     String modifyLogListenMessage(String msg) {
         if(this.config.unixSocketEnabled()) {
             return "Json-RPC Management connection listening on unix socket at " + this.config.unixSocketPath();
