@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(RpcSchema.class)
 public interface RpcSchemaAccessor {
     @Invoker("registerEntry")
-    static RpcSchemaEntry registerEntry(String reference, RpcSchema schema) {
+    static <T> RpcSchemaEntry<T> registerEntry(String reference, RpcSchema<T> schema) {
         throw new AssertionError("unreachable");
     }
 }

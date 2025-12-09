@@ -6,6 +6,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import de.tert0.msmpenhanced.management.RpcCommandSuggestion;
 import de.tert0.msmpenhanced.management.RpcCommandSuggestions;
 import de.tert0.msmpenhanced.mixin.ServerManagementHandlerImplAccessor;
+import net.minecraft.command.permission.LeveledPermissionPredicate;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;
@@ -24,11 +25,11 @@ import java.util.Optional;
 
 public class CommandRpcHandler {
     private static ServerCommandSource createCommandSource(MinecraftServer server, CommandOutput commandOutput, ManagementConnectionId remote) {
-        ServerWorld serverWorld = server.getWorld(server.getSpawnPos().dimension());
+        ServerWorld serverWorld = server.getWorld(server.getSpawnPoint().getDimension());
         String name = "RPC Connection #" + remote.connectionId();
         return new ServerCommandSource(
-                commandOutput, Vec3d.of(server.getSpawnPos().pos()), Vec2f.ZERO, serverWorld,
-                4, name, Text.literal(name), server, null
+                commandOutput, Vec3d.of(server.getSpawnPoint().getPos()), Vec2f.ZERO, serverWorld,
+                LeveledPermissionPredicate.OWNERS, name, Text.literal(name), server, null
         );
     }
 
