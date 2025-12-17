@@ -4,11 +4,11 @@
   "package": "de.tert0.msmpenhanced.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "BearerAuthenticationHandlerMixin",
-    "ManagementConnectionHandlerMixin",
+    "AuthenticationHandlerMixin",
+    "ConnectionMixin",
     "ManagementServerMixin",
-    "RpcSchemaAccessor",
-    "ServerManagementHandlerImplAccessor"
+    "SchemaAccessor",
+    "MinecraftServerStateServiceImplAccessor"
   ],
   "client": [
   ],

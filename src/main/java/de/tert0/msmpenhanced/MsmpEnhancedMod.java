@@ -1,6 +1,6 @@
 package de.tert0.msmpenhanced;
 
-import de.tert0.msmpenhanced.management.ModIncomingRpcMethods;
+import de.tert0.msmpenhanced.jsonrpc.ModIncomingRpcMethods;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;

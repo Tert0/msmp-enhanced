@@ -1,4 +1,4 @@
-package de.tert0.msmpenhanced.management;
+package de.tert0.msmpenhanced.jsonrpc;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
