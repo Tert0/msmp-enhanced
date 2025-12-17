@@ -7,9 +7,8 @@ import de.tert0.msmpenhanced.Config;
 import de.tert0.msmpenhanced.MsmpEnhancedMod;
 import io.netty.bootstrap.AbstractBootstrap;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.ServerChannel;
-import io.netty.channel.epoll.EpollEventLoopGroup;
+import io.netty.channel.*;
+import io.netty.channel.epoll.EpollIoHandler;
 import io.netty.channel.epoll.EpollServerDomainSocketChannel;
 import io.netty.channel.unix.DomainSocketAddress;
 import net.minecraft.server.jsonrpc.ManagementServer;
@@ -23,13 +22,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ManagementServer.class)
 public abstract class ManagementServerMixin {
     private @Unique Config config;
-    private @Unique @Nullable EpollEventLoopGroup epollEventLoopGroup;
+    private @Unique @Nullable MultiThreadIoEventLoopGroup multiThreadIoEventLoopGroup;
 
     @Inject(method = "<init>*", at = @At("RETURN"))
     void constructor(CallbackInfo ci) {
         this.config = MsmpEnhancedMod.getConfig();
         if(this.config.unixSocketEnabled()) {
-            this.epollEventLoopGroup = new EpollEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Management server IO #%d").setDaemon(true).build());
+            IoHandlerFactory ioHandlerFactory = EpollIoHandler.newFactory();
+            this.multiThreadIoEventLoopGroup = new MultiThreadIoEventLoopGroup(
+                    0,
+                    new ThreadFactoryBuilder().setNameFormat("Management server IO #%d").setDaemon(true).build(),
+                    ioHandlerFactory
+            );
         }
     }
 
@@ -44,7 +48,7 @@ public abstract class ManagementServerMixin {
     @WrapOperation(method = "start", at = @At(value = "INVOKE", target = "Lio/netty/bootstrap/ServerBootstrap;group(Lio/netty/channel/EventLoopGroup;)Lio/netty/bootstrap/ServerBootstrap;", remap = false))
     ServerBootstrap group(ServerBootstrap instance, EventLoopGroup group, Operation<ServerBootstrap> original) {
         if(this.config.unixSocketEnabled()) {
-            return instance.group(this.epollEventLoopGroup);
+            return instance.group(this.multiThreadIoEventLoopGroup);
         }
         return original.call(instance, group);
     }
@@ -68,8 +72,8 @@ public abstract class ManagementServerMixin {
 
     @Inject(method = "stop", at = @At("TAIL"))
     void stop(boolean shutdownEventLoop, CallbackInfo ci) throws InterruptedException {
-        if(this.epollEventLoopGroup != null && shutdownEventLoop) {
-            this.epollEventLoopGroup.shutdownGracefully().sync();
+        if(this.multiThreadIoEventLoopGroup != null && shutdownEventLoop) {
+            this.multiThreadIoEventLoopGroup.shutdownGracefully().sync();
         }
     }
 
