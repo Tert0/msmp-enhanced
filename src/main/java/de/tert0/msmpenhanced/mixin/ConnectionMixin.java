@@ -12,20 +12,20 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(Connection.class)
 public abstract class ConnectionMixin {
     @WrapOperation(method = "channelActive", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/jsonrpc/JsonRpcLogger;log(Lnet/minecraft/server/jsonrpc/methods/ClientInfo;Ljava/lang/String;[Ljava/lang/Object;)V"))
-    void modifyLogConnectionOpenMessage(JsonRpcLogger instance, ClientInfo remote, String action, Object[] arguments, Operation<Void> original) {
+    void modifyLogConnectionOpenMessage(JsonRpcLogger instance, ClientInfo clientInfo, String message, Object[] args, Operation<Void> original) {
         if(MsmpEnhancedMod.getConfig().unixSocketEnabled()) {
-            original.call(instance, remote, "Management connection opened", new Object[0]);
+            original.call(instance, clientInfo, "Management connection opened", new Object[0]);
         } else {
-            original.call(instance, remote, action, arguments);
+            original.call(instance, clientInfo, message, args);
         }
     }
 
     @WrapOperation(method = "channelInactive", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/jsonrpc/JsonRpcLogger;log(Lnet/minecraft/server/jsonrpc/methods/ClientInfo;Ljava/lang/String;[Ljava/lang/Object;)V"))
-    void modifyLogConnectionClosedMessage(JsonRpcLogger instance, ClientInfo remote, String action, Object[] arguments, Operation<Void> original) {
+    void modifyLogConnectionClosedMessage(JsonRpcLogger instance, ClientInfo clientInfo, String message, Object[] args, Operation<Void> original) {
         if(MsmpEnhancedMod.getConfig().unixSocketEnabled()) {
-            original.call(instance, remote, "Management connection closed", new Object[0]);
+            original.call(instance, clientInfo, "Management connection closed", new Object[0]);
         } else {
-            original.call(instance, remote, action, arguments);
+            original.call(instance, clientInfo, message, args);
         }
     }
 }

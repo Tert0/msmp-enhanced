@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AuthenticationHandler.class)
 public abstract class AuthenticationHandlerMixin {
     @Inject(method = "getClientIp", at = @At("HEAD"), cancellable = true)
-    void getClientIp(ChannelHandlerContext channelHandlerContext, CallbackInfoReturnable<String> cir) {
-        if(channelHandlerContext.channel().remoteAddress() instanceof DomainSocketAddress) {
+    void getClientIp(ChannelHandlerContext context, CallbackInfoReturnable<String> cir) {
+        if(context.channel().remoteAddress() instanceof DomainSocketAddress) {
             cir.setReturnValue("<UNIX DOMAIN SOCKET>");
         }
     }

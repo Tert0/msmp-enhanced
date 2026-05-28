@@ -71,8 +71,8 @@ public abstract class ManagementServerMixin {
 
 
     @Inject(method = "stop", at = @At("TAIL"))
-    void stop(boolean shutdownEventLoop, CallbackInfo ci) throws InterruptedException {
-        if(this.multiThreadIoEventLoopGroup != null && shutdownEventLoop) {
+    void stop(boolean closeNioEventLoopGroup, CallbackInfo ci) throws InterruptedException {
+        if(this.multiThreadIoEventLoopGroup != null && closeNioEventLoopGroup) {
             this.multiThreadIoEventLoopGroup.shutdownGracefully().sync();
         }
     }

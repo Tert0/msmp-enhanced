@@ -56,7 +56,7 @@ public class CommandRpcService {
     }
 
     public static List<Component> run(MinecraftApi minecraftApi, String command, ClientInfo clientInfo) {
-        DedicatedServer server = ((MinecraftServerStateServiceImplAccessor) minecraftApi.serverStateService()).getServer();
+        DedicatedServer server = ((MinecraftServerStateServiceImplAccessor) minecraftApi.serverStateService()).msmpenhanced$server();
 
         final List<Component> messages = new ArrayList<>();
         CommandSource commandSource = new CommandSource() {
@@ -88,7 +88,7 @@ public class CommandRpcService {
     }
 
     public static RpcCommandSuggestions suggest(MinecraftApi minecraftApi, String partialCommand, ClientInfo clientInfo) {
-        DedicatedServer server = ((MinecraftServerStateServiceImplAccessor) minecraftApi.serverStateService()).getServer();
+        DedicatedServer server = ((MinecraftServerStateServiceImplAccessor) minecraftApi.serverStateService()).msmpenhanced$server();
         CommandSourceStack commandSourceStack = createCommandSourceStack(server, CommandSource.NULL, clientInfo);
 
         ParseResults<CommandSourceStack> parseResults = server.getCommands().getDispatcher().parse(new StringReader(partialCommand), commandSourceStack);
